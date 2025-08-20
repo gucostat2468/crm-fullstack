@@ -1,0 +1,25 @@
+# Python / Flask
+/backend/venv/
+/backend/__pycache__/
+/backend/migrations/
+/backend/uploads/
+/backend/app.db*
+/backend/.flaskenv
+/backend/.env
+Set-Content -Path .gitignore -Value @"
+# Python / Flask
+/backend/venv/
+/backend/__pycache__/
+/backend/migrations/
+/backend/uploads/
+/backend/app.db*
+/backend/.flaskenv
+/backend/.env
+
+# Node.js / React
+/frontend/node_modules/
+/frontend/build/
+
+# Arquivos do Editor / Sistema Operacional
+.vscode/
+.DS_Store
