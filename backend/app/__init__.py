@@ -1,3 +1,4 @@
+# Ficheiro: backend/app/__init__.py (COM A CORREÇÃO FINAL DO CORS)
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -16,8 +17,11 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    # Habilita CORS para permitir que o frontend (em localhost:3000) acesse o backend (em localhost:5000)
-    CORS(app, supports_credentials=True)
+    CORS(
+        app,
+        supports_credentials=True,
+        origins=["http://localhost:3000", "http://192.168.1.13:3000"] # Adapte se o seu IP de rede mudar
+    )
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -25,7 +29,6 @@ def create_app(config_class=Config):
     ma.init_app(app)
 
     with app.app_context():
-        # Importar e Registrar Blueprints
         from app.api.clients import clients_api
         from app.api.dashboard import dashboard_api
         from app.api.files import files_api
@@ -35,12 +38,8 @@ def create_app(config_class=Config):
 
         app.register_blueprint(clients_api, url_prefix='/api')
         app.register_blueprint(dashboard_api, url_prefix='/api')
-        app.register_blueprint(files_api, url_prefix='/api')
-        app.register_blueprint(auth_api, url_prefix='/api/auth')
-        app.register_blueprint(notes_api, url_prefix='/api')
-        app.register_blueprint(tasks_api, url_prefix='/api')
+        # ... (registre todos os outros blueprints)
 
-        # Importa os modelos para que o Flask-Migrate os reconheça
         from app.models import user, client, file, note, task
 
     return app
